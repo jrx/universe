@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "properties": {
+    "service": {
+      "type": "object",
+      "description": "DC/OS service configuration properties",
+      "properties": {
+        "name": {
+          "description": "Name of this service instance.",
+          "type": "string",
+          "default": "minio"
+        }
+      }
+    },
+    "minio": {
+      "type": "object",
+      "description": "Minio instance configuration properties",
+      "properties": {
+        "cpus": {
+          "description": "CPU shares to allocate to the Minio instance.",
+          "type": "number",
+          "default": 1.0,
+          "minimum": 0.5
+        },
+        "mem": {
+          "description": "Memory to allocate to the Minio instance.",
+          "type": "number",
+          "default": 256,
+          "minimum": 256
+        },
+        "disk": {
+          "description": "Disk space to allocate to the Minio instance.",
+          "type": "number",
+          "default": 500,
+          "minimum": 0
+        },
+        "access_key": {
+          "description": "Specifies the access key for the Minio API, required.",
+          "default": "minio",
+          "type": "string"
+        },
+        "secret_key": {
+          "description": "Specifies the secret key for the Minio API, required.",
+          "default": "minio123",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cpus",
+        "mem",
+        "disk",
+        "access_key",
+        "secret_key"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "{{service.name}}",
+  "cmd": "minio server /mnt/mesos/sandbox/export/",
+  "cpus": {{minio.cpus}},
+  "mem": {{minio.mem}},
+  "disk": {{minio.disk}},
+  "instances": 1,
+  "container": {
+    "type": "DOCKER",
+    "volumes": [
+      {
+        "containerPath": "export",
+        "persistent": {
+          "size": {{minio.disk}}
+        },
+        "mode": "RW"
+      }
+    ],
+    "docker": {
+      "image": "{{resource.assets.container.docker.minio}}",
+      "network": "BRIDGE",
+      "portMappings": [
+        {
+          "containerPort": 9000,
+          "hostPort": 0,
+          "protocol": "tcp",
+          "labels": {
+            "VIP_0": "{{service.name}}:9000"
+          }
+        }
+      ]
+    }
+  },
+  "env": {
+    "MINIO_ACCESS_KEY": "{{minio.access_key}}",
+    "MINIO_SECRET_KEY": "{{minio.secret_key}}"
+  },
+  "labels": {
+    "DCOS_SERVICE_NAME": "{{service.name}}",
+    "DCOS_SERVICE_PORT_INDEX": "0",
+    "DCOS_SERVICE_SCHEME": "http"
+  },
+  "healthChecks": [
+    {
+      "protocol": "TCP",
+      "portIndex": 0,
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3,
+      "ignoreHttp1xx": false
+    }
+  ]
+}

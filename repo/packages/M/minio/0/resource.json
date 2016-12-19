@@ -1,0 +1,9 @@
+{
+ "assets": {
+   "container": {
+     "docker": {
+       "minio": "minio/minio"
+     }
+   }
+ }
+}
